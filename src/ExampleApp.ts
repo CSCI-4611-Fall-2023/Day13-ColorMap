@@ -115,37 +115,53 @@ export class ExampleApp extends gfx.GfxApp
         const radius = 0.02;
         const nCircles = 50;
         for (let i=0; i<nCircles; i++) {
-            const amt = i / (nCircles - 1);
-            const x = (-1 + radius) + amt * (2 - 2 * radius);
+            const alpha = i / (nCircles - 1); // from 0.0 to 1.0
+
+            // linear interp by hand
+            const xStart = -1 + radius;
+            const xEnd = 1 - radius;
+            //const totalDiff = xEnd - xStart;
+            //const x = xStart + alpha * totalDiff;
+
+            // linear interp a number with MathUtils.lerp
+            const x = gfx.MathUtils.lerp(xStart, xEnd, alpha);
+
+            const startPt = new gfx.Vector2(xStart, 0.5);
+            const endPt = new gfx.Vector2(xEnd, 0.5);
+            const curPos = gfx.Vector2.lerp(startPt, endPt, alpha);
+
+            //const amt = i / (nCircles - 1);
+            //const x = (-1 + radius) + amt * (2 - 2 * radius);
     
             const c1 = gfx.Geometry2Factory.createCircle(radius, 20);
-            c1.position.x = x;
-            c1.position.y = 0.5;
-            c1.material.color = this.map1.lookupColor(amt);
+            //c1.position.x = x;
+            //c1.position.y = 0.5;
+            c1.position = curPos;
+            c1.material.color = this.map1.lookupColor(alpha);
             this.scene.add(c1);
 
             const c2 = gfx.Geometry2Factory.createCircle(radius, 20);
             c2.position.x = x;
             c2.position.y = 0.25;
-            c2.material.color = this.map2.lookupColor(amt);
+            c2.material.color = this.map2.lookupColor(alpha);
             this.scene.add(c2);
 
             const c3 = gfx.Geometry2Factory.createCircle(radius, 20);
             c3.position.x = x;
             c3.position.y = 0;
-            c3.material.color = this.map3.lookupColor(amt);
+            c3.material.color = this.map3.lookupColor(alpha);
             this.scene.add(c3);
 
             const c4 = gfx.Geometry2Factory.createCircle(radius, 20);
             c4.position.x = x;
             c4.position.y = -0.25;
-            c4.material.color = this.map4.lookupColor(amt);
+            c4.material.color = this.map4.lookupColor(alpha);
             this.scene.add(c4);
 
             const c5 = gfx.Geometry2Factory.createCircle(radius, 20);
             c5.position.x = x;
             c5.position.y = -0.5;
-            c5.material.color = this.map5.lookupColor(amt);
+            c5.material.color = this.map5.lookupColor(alpha);
             this.scene.add(c5);
         }
     }

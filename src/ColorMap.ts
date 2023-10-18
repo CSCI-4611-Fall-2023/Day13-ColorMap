@@ -78,9 +78,9 @@ export class ColorMap
                 const alpha  = (dataVal - v1) / (v2 - v1);
     
                 // interpolate between the two colors
-                const c1 = this.controlPts[i-1].col;
-                const c2 = this.controlPts[i].col;
-                return gfx.Color.lerp(c1, c2, alpha);
+                const cStart = this.controlPts[i-1].col;
+                const cEnd = this.controlPts[i].col;
+                return gfx.Color.lerp(cStart, cEnd, alpha);
 
             }
         }
