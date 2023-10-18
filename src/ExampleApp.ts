@@ -13,6 +13,7 @@ export class ExampleApp extends gfx.GfxApp
     private map2 : ColorMap;
     private map3 : ColorMap;
     private map4 : ColorMap;
+    private map5 : ColorMap;
 
     // --- Create the ExampleApp class ---
     constructor()
@@ -100,6 +101,10 @@ export class ExampleApp extends gfx.GfxApp
         this.map4.addControlPt(0, new gfx.Color(1, 0, 0));
         this.map4.addControlPt(0.5, new gfx.Color(1, 1, 1));
         this.map4.addControlPt(1, new gfx.Color(0, 0, 1));
+
+        this.map5 = new ColorMap();
+        this.map5.addControlPt(0, new gfx.Color(1, 1, 0));
+        this.map5.addControlPt(1, new gfx.Color(0, 0, 1));
     }
 
     // --- Initialize the graphics scene ---
@@ -136,6 +141,12 @@ export class ExampleApp extends gfx.GfxApp
             c4.position.y = -0.25;
             c4.material.color = this.map4.lookupColor(amt);
             this.scene.add(c4);
+
+            const c5 = gfx.Geometry2Factory.createCircle(radius, 20);
+            c5.position.x = x;
+            c5.position.y = -0.5;
+            c5.material.color = this.map5.lookupColor(amt);
+            this.scene.add(c5);
         }
     }
 
