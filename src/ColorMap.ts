@@ -80,21 +80,8 @@ export class ColorMap
                 // use lab space to interpolate between the colors at the two control points
                 const c1 = this.controlPts[i-1].col;
                 const c2 = this.controlPts[i].col;
-                //return gfx.Color.lerp(c1, c2, alpha);
+                return gfx.Color.lerp(c1, c2, alpha);
 
-                // convert both c1 and c2 from the rgb color space to the lab color space 
-                const lab1 = this.rgbToLab([c1.r, c1.g, c1.b]);
-                const lab2 = this.rgbToLab([c2.r, c2.g, c2.b]);
-
-                // lerp each component of the colors (L, a, and b) separately
-                const labLerped = [0, 0, 0];
-                labLerped[0] = gfx.MathUtils.lerp(lab1[0], lab2[0], alpha);
-                labLerped[1] = gfx.MathUtils.lerp(lab1[1], lab2[1], alpha);
-                labLerped[2] = gfx.MathUtils.lerp(lab1[2], lab2[2], alpha);
-
-                // convert the resulting color in lab space back to rgb space
-                const finalRgb = this.labToRgb(labLerped);
-                return new gfx.Color(finalRgb[0], finalRgb[1], finalRgb[2]);
             }
         }
     }
