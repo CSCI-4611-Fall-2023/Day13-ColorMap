@@ -78,10 +78,23 @@ export class ColorMap
                 const alpha  = (dataVal - v1) / (v2 - v1);
     
                 // interpolate between the two colors
-                const cStart = this.controlPts[i-1].col;
-                const cEnd = this.controlPts[i].col;
-                return gfx.Color.lerp(cStart, cEnd, alpha);
+                const cStart = this.controlPts[i-1].col; // red
+                const cEnd = this.controlPts[i].col;     // orange
+                //return gfx.Color.lerp(cStart, cEnd, alpha);
 
+                // step 1: convert cStart and cEnd to Lab
+                const cStartLab = this.rgbToLab([ cStart.r, cStart.g, cStart.b ]);
+                const cEndLab = this.rgbToLab([ cEnd.r, cEnd.g, cEnd.b ]);
+                
+                // step 2: interpolate using alpha in Lab space
+                const interpL = gfx.MathUtils.lerp(cStartLab[0], cEndLab[0], alpha);
+                const interpA = gfx.MathUtils.lerp(cStartLab[1], cEndLab[1], alpha);
+                const interpB = gfx.MathUtils.lerp(cStartLab[2], cEndLab[2], alpha);
+
+                // step 3: convert back to RGB space, and return that color
+                const finalColor = this.labToRgb([ interpL, interpA, interpB ]);
+
+                return new gfx.Color(finalColor[0], finalColor[1], finalColor[2]);
             }
         }
     }
